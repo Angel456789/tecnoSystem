@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width">
+ <title>Servicio Juego de Adivinanza</title>
+</head>
+
+<body>
+
+ <h1>Servicio Juego de Adivinanza</h1>
+
+ <!-- Adivinanza para el usuario -->
+ <p><strong>Adivinanza:</strong> Tengo ciudades, pero no casas; montañas, pero no árboles; y agua, pero no peces. ¿Qué soy?</p>
+
+ <form onsubmit="procesaForma(event)">
+  <p>
+   <label>
+    Respuesta a la adivinanza:
+    <input name="respuesta">
+   </label>
+  </p>
+
+  <p><button type="submit">Procesa</button></p>
+
+ </form>
+
+ <script type="module">
+  import { exportaAHtml } from "./lib/js/exportaAHtml.js";
+  import { muestraError } from "./lib/js/muestraError.js";
+  import { submitForm } from "./lib/js/submitForm.js";
+
+  /**
+   * @param {Event} event
+   */
+  async function procesaForma(event) {
+    event.preventDefault(); // Evita que el formulario se envíe de forma predeterminada
+    try {
+      const respuesta = await submitForm("srv/valida.php", event);
+      alert(respuesta.body); // Muestra la respuesta del servidor
+    } catch (error) {
+      muestraError(error); // Muestra cualquier error que ocurra
+    }
+  }
+
+  exportaAHtml(procesaForma);
+ </script>
+
+</body>
+
+</html>
